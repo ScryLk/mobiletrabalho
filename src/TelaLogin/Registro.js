@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const RegistroScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -13,11 +14,13 @@ const RegistroScreen = ({ navigation }) => {
       await AsyncStorage.setItem('username', username);
       await AsyncStorage.setItem('email', email);  
       await AsyncStorage.setItem('password', password);
+      await axios.post('http://localhost:8080/user', { username, email, password });
       navigation.navigate('Login');
     } catch (error) {
       alert('Error!', 'There was an error saving user data.');
     }
   };
+
 
   return (
     <View>
